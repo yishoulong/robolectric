@@ -116,7 +116,7 @@ public class ShadowTypeface {
   private static Typeface createUnderlyingTypeface(String familyName, int style) {
     long thisFontId = nextFontId++;
     FONTS.put(thisFontId, new FontDesc(familyName, style));
-    if (Build.VERSION.SDK_INT >= 21) {
+    if (Build.VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
       return ReflectionHelpers.callConstructor(Typeface.class, ClassParameter.from(long.class, thisFontId));
     } else {
       return ReflectionHelpers.callConstructor(Typeface.class, ClassParameter.from(int.class, (int) thisFontId));

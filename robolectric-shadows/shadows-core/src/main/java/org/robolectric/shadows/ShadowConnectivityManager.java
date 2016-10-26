@@ -147,7 +147,7 @@ public class ShadowConnectivityManager {
   }
 
   public void setActiveNetworkInfo(NetworkInfo info) {
-    if (Build.VERSION.SDK_INT >= 21) {
+    if (Build.VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
       activeNetworkInfo = info;
       if (info != null) {
         networkTypeToNetworkInfo.put(info.getType(), info);

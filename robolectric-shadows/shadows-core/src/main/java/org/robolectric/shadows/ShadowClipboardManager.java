@@ -26,7 +26,7 @@ public class ShadowClipboardManager {
 
   @Implementation
   public void setPrimaryClip(ClipData clip) {
-    if (Build.VERSION.SDK_INT >= 18) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
       if (clip != null) {
         clip.prepareToLeaveProcess();
       }

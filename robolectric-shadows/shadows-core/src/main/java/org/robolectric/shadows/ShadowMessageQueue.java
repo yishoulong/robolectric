@@ -165,7 +165,7 @@ public class ShadowMessageQueue {
       callInstanceMethod(msg, "markInUse");
       target.dispatchMessage(msg);
 
-      if (Build.VERSION.SDK_INT >= 21) {
+      if (Build.VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
         callInstanceMethod(msg, "recycleUnchecked");
       } else {
         callInstanceMethod(msg, "recycle");

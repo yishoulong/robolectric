@@ -45,7 +45,7 @@ public class ShadowMessage {
    * on the real object.
    */
   public void recycleUnchecked() {
-    if (Build.VERSION.SDK_INT >= 21) {
+    if (Build.VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
       unschedule();
       directlyOn(realMessage, Message.class, "recycleUnchecked");
     } else {

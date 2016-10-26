@@ -38,7 +38,7 @@ public class ShadowLocaleData {
     localeData.longMonthNames = new String[]{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
     localeData.shortMonthNames = new String[]{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
-    if (Build.VERSION.SDK_INT >= 17) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
       localeData.tinyMonthNames = new String[]{"J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"};
       localeData.tinyStandAloneMonthNames = localeData.tinyMonthNames;
       localeData.tinyWeekdayNames = new String[]{"", "S", "M", "T", "W", "T", "F", "S"};
@@ -63,10 +63,10 @@ public class ShadowLocaleData {
     localeData.mediumTimeFormat = "h:mm:ss a";
     localeData.shortTimeFormat = "h:mm a";
 
-    if (Build.VERSION.SDK_INT >= 23) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
       localeData.timeFormat_hm = "h:mm a";
       localeData.timeFormat_Hm = "HH:mm";
-    } else if (Build.VERSION.SDK_INT >= 18) {
+    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
       ReflectionHelpers.setField(localeData, "timeFormat12", "h:mm a");
       ReflectionHelpers.setField(localeData, "timeFormat24", "HH:mm");
     }
@@ -81,7 +81,7 @@ public class ShadowLocaleData {
     localeData.groupingSeparator = ',';
     localeData.patternSeparator = ';';
 
-    if (Build.VERSION.SDK_INT >= 22) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
       // Lollipop MR1 uses a String
       localeData.percent = "%";
     } else {
@@ -92,7 +92,7 @@ public class ShadowLocaleData {
     localeData.perMill = 0x2030;
     localeData.monetarySeparator = '.';
 
-    if (Build.VERSION.SDK_INT >= 21) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       // Lollipop uses a String
       localeData.minusSign = "-";
     } else {

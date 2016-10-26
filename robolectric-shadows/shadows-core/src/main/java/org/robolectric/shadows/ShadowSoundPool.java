@@ -22,7 +22,7 @@ public class ShadowSoundPool {
 
   @Implementation(minSdk = M)
   public void __constructor__(int maxStreams, AudioAttributes attributes) {
-    if (Build.VERSION.SDK_INT >= 23) {
+    if (Build.VERSION.SDK_INT >= VERSION_CODES.M) {
       ReflectionHelpers.setField(realObject, "mLock", new Object());
     } else {
       invokeConstructor(SoundPool.class, realObject,

@@ -88,17 +88,17 @@ public class ShadowContextImpl {
     SYSTEM_SERVICE_MAP.put(Context.ACCOUNT_SERVICE, "android.accounts.AccountManager");
     SYSTEM_SERVICE_MAP.put(Context.NFC_SERVICE, "android.nfc.NfcManager");
     SYSTEM_SERVICE_MAP.put(Context.WALLPAPER_SERVICE, "android.app.WallpaperManager");
-    if (Build.VERSION.SDK_INT >= 17) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
       SYSTEM_SERVICE_MAP.put(Context.DISPLAY_SERVICE, "android.hardware.display.DisplayManager");
       SYSTEM_SERVICE_MAP.put(Context.USER_SERVICE, "android.os.UserManager");
     }
-    if (Build.VERSION.SDK_INT >= 18) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
       SYSTEM_SERVICE_MAP.put(Context.BLUETOOTH_SERVICE, "android.bluetooth.BluetoothManager");
     }
-    if (Build.VERSION.SDK_INT >= 19) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
       SYSTEM_SERVICE_MAP.put(Context.PRINT_SERVICE, "android.print.PrintManager");
     }
-    if (Build.VERSION.SDK_INT >= 21) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       SYSTEM_SERVICE_MAP.put(Context.JOB_SCHEDULER_SERVICE, "android.app.JobSchedulerImpl");
       SYSTEM_SERVICE_MAP.put(Context.TELECOM_SERVICE, "android.telecom.TelecomManager");
       SYSTEM_SERVICE_MAP.put(Context.MEDIA_SESSION_SERVICE, "android.media.session.MediaSessionManager");
@@ -176,12 +176,12 @@ public class ShadowContextImpl {
           service = ReflectionHelpers.callConstructor(clazz, ClassParameter.from(Context.class, RuntimeEnvironment.application));
         } else if (serviceClassName.equals("android.view.accessibility.AccessibilityManager")) {
           service = AccessibilityManager.getInstance(realObject);
-        } else if (Build.VERSION.SDK_INT >= 17 && serviceClassName.equals("android.view.WindowManagerImpl")) {
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && serviceClassName.equals("android.view.WindowManagerImpl")) {
           Display display = newInstanceOf(Display.class);
           service = ReflectionHelpers.callConstructor(Class.forName("android.view.WindowManagerImpl"), ClassParameter.from(Display.class, display));
         } else if (serviceClassName.equals("android.accounts.AccountManager")) {
           service = AccountManager.get(null);
-        } else if (Build.VERSION.SDK_INT >= 19 && serviceClassName.equals("android.print.PrintManager")) {
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && serviceClassName.equals("android.print.PrintManager")) {
           service = ReflectionHelpers.callConstructor(Class.forName("android.print.PrintManager"),
             ClassParameter.from(Context.class, RuntimeEnvironment.application),
             ClassParameter.from(android.print.IPrintManager.class, null),

@@ -26,7 +26,7 @@ public class ShadowWindow {
   private int softInputMode;
 
   public static Window create(Context context) throws Exception {
-    if (Build.VERSION.SDK_INT >= 23) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
       return new PhoneWindow(context);
     } else {
       Class<? extends Window> phoneWindowClass =

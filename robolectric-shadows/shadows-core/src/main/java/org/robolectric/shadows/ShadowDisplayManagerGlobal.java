@@ -28,7 +28,7 @@ public class ShadowDisplayManagerGlobal {
   @Implementation
   public Object getDisplayInfo(int displayId) {
     Object result = Shadow.newInstanceOf("android.view.DisplayInfo");
-    if (Build.VERSION.SDK_INT >= 23) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
       ReflectionHelpers.setField(result, "supportedModes", new Display.Mode[]{new Display.Mode(0, 0, 0, 0.0f)});
     }
     return result;

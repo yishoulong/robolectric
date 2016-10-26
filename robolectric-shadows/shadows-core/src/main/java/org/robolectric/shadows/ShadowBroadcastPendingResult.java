@@ -1,8 +1,6 @@
 package org.robolectric.shadows;
 
 import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -13,7 +11,8 @@ import org.robolectric.annotation.Implementation;
 import org.robolectric.annotation.Implements;
 import org.robolectric.annotation.RealObject;
 
-import java.lang.reflect.InvocationTargetException;
+import static android.os.Build.VERSION_CODES.JELLY_BEAN;
+import static android.os.Build.VERSION_CODES.LOLLIPOP_MR1;
 
 @Implements(BroadcastReceiver.PendingResult.class)
 public final class ShadowBroadcastPendingResult {
@@ -21,7 +20,7 @@ public final class ShadowBroadcastPendingResult {
 
   static BroadcastReceiver.PendingResult create(int resultCode, String resultData, Bundle resultExtras, boolean ordered) {
     try {
-      if (Build.VERSION.SDK_INT < 17) {
+      if (Build.VERSION.SDK_INT <= JELLY_BEAN) {
         return BroadcastReceiver.PendingResult.class
             .getConstructor(int.class, String.class, Bundle.class, int.class, boolean.class, boolean.class, IBinder.class)
             .newInstance(
@@ -32,7 +31,7 @@ public final class ShadowBroadcastPendingResult {
                 ordered,
                 false /*sticky*/,
                 null /* ibinder token */);
-      } else if (Build.VERSION.SDK_INT < 23) {
+      } else if (Build.VERSION.SDK_INT <= LOLLIPOP_MR1) {
         return BroadcastReceiver.PendingResult.class
             .getConstructor(int.class, String.class, Bundle.class, int.class, boolean.class, boolean.class, IBinder.class, int.class)
             .newInstance(
