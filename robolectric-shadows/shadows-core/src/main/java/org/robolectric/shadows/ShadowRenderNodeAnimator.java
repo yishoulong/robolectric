@@ -31,6 +31,8 @@ public class ShadowRenderNodeAnimator {
 
   @Resetter
   public static void reset() {
+    if (Build.VERSION.SDK_INT < LOLLIPOP) return;
+
     // sAnimationHelper is a static field used for processing delayed animations. Since it registers
     // callbacks on the Choreographer, this is a problem if not reset between tests (as once the
     // test is complete, its scheduled callbacks would be removed, but the static object would still

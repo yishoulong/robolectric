@@ -17,16 +17,19 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import static android.os.Build.VERSION_CODES.KITKAT_WATCH;
+import static org.robolectric.internal.Shadow.directlyOn;
+import static org.robolectric.internal.Shadow.invokeConstructor;
+import static org.robolectric.util.ReflectionHelpers.ClassParameter.from;
 
 /**
  * Shadow for {@link android.text.format.Time}.
  */
-@Implements(value = Time.class, maxSdk = KITKAT_WATCH) // todo: setToNow should be omnipresent though
+@Implements(value = Time.class)
 public class ShadowTime {
   @RealObject
   private Time time;
 
-  @Implementation
+  @Implementation(maxSdk = KITKAT_WATCH)
   public void setToNow() {
     time.set(ShadowSystemClock.currentTimeMillis());
   }
@@ -38,25 +41,42 @@ public class ShadowTime {
   private static final long DAY_IN_MILLIS = HOUR_IN_MILLIS * 24;
 
   public void __constructor__() {
-    __constructor__(getCurrentTimezone());
+    if (upToKitkatWatch()) {
+      __constructor__(getCurrentTimezone());
+    } else {
+      invokeConstructor(Time.class, time);
+    }
   }
 
   public void __constructor__(String timezone) {
-    if (timezone == null) {
-      throw new NullPointerException("timezone is null!");
+    if (upToKitkatWatch()) {
+      if (timezone == null) {
+        throw new NullPointerException("timezone is null!");
+      }
+      time.timezone = timezone;
+      time.year = 1970;
+      time.monthDay = 1;
+      time.isDst = -1;
+    } else {
+      invokeConstructor(Time.class, time, from(String.class, timezone));
     }
-    time.timezone = timezone;
-    time.year = 1970;
-    time.monthDay = 1;
-    time.isDst = -1;
   }
 
   public void __constructor__(Time other) {
-    set(other);
+    if (upToKitkatWatch()) {
+      set(other);
+    } else {
+      invokeConstructor(Time.class, time, from(Time.class, other));
+    }
   }
 
-  @Implementation
+  @Implementation(maxSdk = KITKAT_WATCH)
   public void set(Time other) {
+    if (!upToKitkatWatch()) {
+      directlyOn(time, Time.class).set(other);
+      return;
+    }
+
     time.timezone = other.timezone;
     time.second = other.second;
     time.minute = other.minute;
@@ -70,21 +90,33 @@ public class ShadowTime {
     time.gmtoff = other.gmtoff;
   }
 
-  @Implementation
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static boolean isEpoch(Time time) {
+    if (!upToKitkatWatch()) {
+      return directlyOn(time, Time.class).isEpoch(time);
+    }
+
     long millis = time.toMillis(true);
     return getJulianDay(millis, 0) == Time.EPOCH_JULIAN_DAY;
   }
 
-  @Implementation
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static int getJulianDay(long millis, long gmtoff) {
+    if (!upToKitkatWatch()) {
+      return directlyOn(Time.class, "getJulianDay", from(long.class, millis), from(long.class, gmtoff));
+    }
+
     long offsetMillis = gmtoff * 1000;
     long julianDay = (millis + offsetMillis) / DAY_IN_MILLIS;
     return (int) julianDay + Time.EPOCH_JULIAN_DAY;
   }
 
-  @Implementation
+  @Implementation(maxSdk = KITKAT_WATCH)
   public long setJulianDay(int julianDay) {
+    if (!upToKitkatWatch()) {
+      return directlyOn(time, Time.class).setJulianDay(julianDay);
+    }
+
     // Don't bother with the GMT offset since we don't know the correct
     // value for the given Julian day.  Just get close and then adjust
     // the day.
@@ -106,8 +138,13 @@ public class ShadowTime {
     return millis;
   }
 
-  @Implementation
+  @Implementation(maxSdk = KITKAT_WATCH)
   public void set(long millis) {
+    if (!upToKitkatWatch()) {
+      directlyOn(time, Time.class).set(millis);
+      return;
+    }
+
     Calendar c = getCalendar();
     c.setTimeInMillis(millis);
     set(
@@ -120,14 +157,23 @@ public class ShadowTime {
         );
   }
 
-  @Implementation
+  @Implementation(maxSdk = KITKAT_WATCH)
   public long toMillis(boolean ignoreDst) {
+    if (!upToKitkatWatch()) {
+      return directlyOn(time, Time.class).toMillis(ignoreDst);
+    }
+
     Calendar c = getCalendar();
     return c.getTimeInMillis();
   }
 
-  @Implementation
+  @Implementation(maxSdk = KITKAT_WATCH)
   public void set(int second, int minute, int hour, int monthDay, int month, int year) {
+    if (!upToKitkatWatch()) {
+      directlyOn(time, Time.class).set(second, minute, hour, monthDay, month, year);
+      return;
+    }
+
     time.second = second;
     time.minute = minute;
     time.hour = hour;
@@ -140,13 +186,18 @@ public class ShadowTime {
     time.gmtoff = 0;
   }
 
-  @Implementation
+  @Implementation(maxSdk = KITKAT_WATCH)
   public void set(int monthDay, int month, int year) {
     set(0, 0, 0, monthDay, month, year);
   }
 
-  @Implementation
+  @Implementation(maxSdk = KITKAT_WATCH)
   public void clear(String timezone) {
+    if (!upToKitkatWatch()) {
+      directlyOn(time, Time.class).clear(timezone);
+      return;
+    }
+
     if (timezone == null) {
       throw new NullPointerException("timezone is null!");
     }
@@ -164,13 +215,22 @@ public class ShadowTime {
     time.isDst = -1;
   }
 
-  @Implementation
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static String getCurrentTimezone() {
+    if (!upToKitkatWatch()) {
+      return directlyOn(Time.class, "getCurrentTimeZone");
+    }
+
     return TimeZone.getDefault().getID();
   }
 
-  @Implementation
+  @Implementation(maxSdk = KITKAT_WATCH)
   public void switchTimezone(String timezone) {
+    if (!upToKitkatWatch()) {
+      directlyOn(time, Time.class).switchTimezone(timezone);
+      return;
+    }
+
     long date = toMillis(true);
     long gmtoff = TimeZone.getTimeZone(timezone).getOffset(date);
     set(date + gmtoff);
@@ -178,8 +238,12 @@ public class ShadowTime {
     time.gmtoff = (gmtoff / 1000);
   }
 
-  @Implementation
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static int compare(Time a, Time b) {
+    if (!upToKitkatWatch()) {
+      return directlyOn(Time.class, "compare", from(Time.class, a), from(Time.class, b));
+    }
+
     long ams = a.toMillis(false);
     long bms = b.toMillis(false);
     if (ams == bms) {
@@ -191,18 +255,30 @@ public class ShadowTime {
     }
   }
 
-  @Implementation
+  @Implementation(maxSdk = KITKAT_WATCH)
   public boolean before(Time other) {
+    if (!upToKitkatWatch()) {
+      return directlyOn(time, Time.class).before(time);
+    }
+
     return Time.compare(time, other) < 0;
   }
 
-  @Implementation
+  @Implementation(maxSdk = KITKAT_WATCH)
   public boolean after(Time other) {
+    if (!upToKitkatWatch()) {
+      return directlyOn(time, Time.class).after(time);
+    }
+
     return Time.compare(time, other) > 0;
   }
 
-  @Implementation
+  @Implementation(maxSdk = KITKAT_WATCH)
   public boolean parse(String timeString) {
+    if (!upToKitkatWatch()) {
+      return directlyOn(time, Time.class).parse(timeString);
+    }
+
     TimeZone tz;
     if (timeString.endsWith("Z")) {
       timeString = timeString.substring(0, timeString.length() - 1);
@@ -227,8 +303,12 @@ public class ShadowTime {
     return "UTC".equals(tz.getID());
   }
 
-  @Implementation
+  @Implementation(maxSdk = KITKAT_WATCH)
   public String format2445() {
+    if (!upToKitkatWatch()) {
+      return directlyOn(time, Time.class).format2445();
+    }
+
     String value = format("%Y%m%dT%H%M%S");
     if ( "UTC".equals(time.timezone)){
       value += "Z";
@@ -236,8 +316,12 @@ public class ShadowTime {
     return value;
   }
 
-  @Implementation
+  @Implementation(maxSdk = KITKAT_WATCH)
   public String format3339(boolean allDay) {
+    if (!upToKitkatWatch()) {
+      return directlyOn(time, Time.class).format3339(allDay);
+    }
+
     if (allDay) {
       return format("%Y-%m-%d");
     } else if ("UTC".equals(time.timezone)) {
@@ -252,8 +336,12 @@ public class ShadowTime {
     }
   }
 
-  @Implementation
+  @Implementation(maxSdk = KITKAT_WATCH)
   public boolean parse3339(String rfc3339String) {
+    if (!upToKitkatWatch()) {
+      return directlyOn(time, Time.class).parse3339(rfc3339String);
+    }
+
     SimpleDateFormat formatter =  new SimpleDateFormat();
     // Special case Date without time first
     if (rfc3339String.matches("\\d{4}-\\d{2}-\\d{2}")) {
@@ -310,18 +398,22 @@ public class ShadowTime {
   }
 
   private void throwTimeFormatException(String optionalMessage) {
-    throw ReflectionHelpers.<TimeFormatException>callConstructor(TimeFormatException.class, ReflectionHelpers.ClassParameter.from(String.class, optionalMessage == null ? "fail" : optionalMessage));
+    throw ReflectionHelpers.callConstructor(TimeFormatException.class, from(String.class, optionalMessage == null ? "fail" : optionalMessage));
   }
 
-//  @Implementation
+//  @Implementation(maxSdk = KITKAT_WATCH)
 //  public String format(String format) {
 //    Strftime strftime = new Strftime(format, Locale.getDefault());
 //    strftime.setTimeZone(TimeZone.getTimeZone(time.timezone));
 //    return strftime.format(new Date(toMillis(false)));
 //  }
 
-  @Implementation
+  @Implementation(maxSdk = KITKAT_WATCH)
   public String format(String format) {
+    if (!upToKitkatWatch()) {
+      return directlyOn(time, Time.class).format(format);
+    }
+
     return Strftime.format(format, new Date(toMillis(false)), Locale.getDefault(), TimeZone.getTimeZone(time.timezone));
   }
 
@@ -330,5 +422,9 @@ public class ShadowTime {
     c.set(time.year, time.month, time.monthDay, time.hour, time.minute, time.second);
     c.set(Calendar.MILLISECOND, 0);
     return c;
+  }
+
+  private static boolean upToKitkatWatch() {
+    return Build.VERSION.SDK_INT <= KITKAT_WATCH;
   }
 }

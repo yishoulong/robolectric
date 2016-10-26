@@ -17,6 +17,8 @@ public class ShadowBackgroundThread {
 
   @Resetter
   public static void reset() {
+    if (Build.VERSION.SDK_INT < KITKAT) return;
+
     BackgroundThread instance = ReflectionHelpers.getStaticField(BackgroundThread.class, "sInstance");
     if (instance != null) {
       instance.quit();
