@@ -13,6 +13,8 @@ import org.robolectric.util.ReflectionHelpers;
 
 import java.lang.reflect.InvocationTargetException;
 
+import static android.os.Build.VERSION_CODES;
+import static android.os.Build.VERSION_CODES.KITKAT;
 import static org.robolectric.internal.Shadow.directlyOn;
 
 /**
@@ -65,7 +67,7 @@ public class ShadowAlertController {
     directlyOn(realAlertController, AlertController.class).setView(view);
   }
 
-  @Implementation(from = 19)
+  @Implementation(minSdk = KITKAT)
   public void setView(int resourceId) {
     setView(LayoutInflater.from(RuntimeEnvironment.application).inflate(resourceId, null));
   }

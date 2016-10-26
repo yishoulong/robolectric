@@ -10,15 +10,20 @@ import org.robolectric.annotation.Implements;
 import java.util.Collections;
 import java.util.List;
 
-@Implements(value = UserManager.class, minSdk = 17)
+import static android.os.Build.VERSION_CODES;
+import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR1;
+import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR2;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
+
+@Implements(value = UserManager.class, minSdk = JELLY_BEAN_MR1)
 public class ShadowUserManager {
 
-  @Implementation(from = 18)
+  @Implementation(minSdk = JELLY_BEAN_MR2)
   public Bundle getApplicationRestrictions(String packageName) {
     return null;
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public List<UserHandle> getUserProfiles(){
     return Collections.emptyList();
   }

@@ -11,6 +11,10 @@ import org.robolectric.annotation.RealObject;
 import org.robolectric.annotation.Implementation;
 import org.robolectric.annotation.Implements;
 
+import static android.os.Build.VERSION_CODES;
+import static android.os.Build.VERSION_CODES.KITKAT;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
+
 /**
  * Shadow for {@link android.view.Display}.
  */
@@ -121,7 +125,7 @@ public class ShadowDisplay {
     outSize.set(realWidth, realHeight);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public int getState() {
     return Display.STATE_ON;
   }
@@ -206,7 +210,7 @@ public class ShadowDisplay {
     this.pixelFormat = pixelFormat;
   }
 
-  @Implementation(from = 19)
+  @Implementation(minSdk = KITKAT)
   public DisplayAdjustments getDisplayAdjustments() {
     return new DisplayAdjustments();
   }

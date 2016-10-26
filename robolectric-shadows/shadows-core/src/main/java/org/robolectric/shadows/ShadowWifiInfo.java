@@ -5,6 +5,9 @@ import org.robolectric.annotation.Implementation;
 import org.robolectric.annotation.Implements;
 import org.robolectric.annotation.HiddenApi;
 
+import static android.os.Build.VERSION_CODES;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
+
 /**
  * Shadow for {@link android.net.wifi.WifiInfo}.
  */
@@ -41,7 +44,7 @@ public class ShadowWifiInfo {
     return rssi;
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public int getFrequency() {
     return frequency;
   }
@@ -81,7 +84,8 @@ public class ShadowWifiInfo {
     this.linkSpeed = linkSpeed;
   }
 
-  @HiddenApi @Implementation(from = 21)
+  @HiddenApi
+  @Implementation(minSdk = LOLLIPOP)
   public void setFrequency(int frequency) {
     this.frequency = frequency;
   }

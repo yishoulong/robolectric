@@ -12,6 +12,10 @@ import org.robolectric.annotation.Implements;
 import org.robolectric.annotation.Implementation;
 import org.robolectric.util.TempDirectory;
 
+import static android.os.Build.VERSION_CODES;
+import static android.os.Build.VERSION_CODES.KITKAT;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
+
 /**
  * Shadow for {@link android.os.Environment}.
  */
@@ -79,23 +83,23 @@ public class ShadowEnvironment {
     return exists != null ? exists : false;
   }
 
-  @Implementation(from = 19)
+  @Implementation(minSdk = KITKAT)
   public static String getStorageState(File path) {
     return externalStorageState;
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static String getExternalStorageState(File path) {
     return externalStorageState;
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static boolean isExternalStorageRemovable(File path) {
     final Boolean exists = STORAGE_REMOVABLE.get(path);
     return exists != null ? exists : false;
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static boolean isExternalStorageEmulated(File path) {
     final Boolean emulated = STORAGE_EMULATED.get(path);
     return emulated != null ? emulated : false;

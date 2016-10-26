@@ -6,7 +6,9 @@ import org.robolectric.annotation.Implements;
 import org.robolectric.annotation.Resetter;
 import org.robolectric.util.ReflectionHelpers;
 
-@Implements(value = ResourcesManager.class, isInAndroidSdk = false, minSdk = 19)
+import static android.os.Build.VERSION_CODES.KITKAT;
+
+@Implements(value = ResourcesManager.class, isInAndroidSdk = false, minSdk = KITKAT)
 public class ShadowResourceManager {
 
   @Resetter

@@ -1,5 +1,6 @@
 package org.robolectric.shadows;
 
+import android.os.Build;
 import android.text.format.Time;
 import android.util.TimeFormatException;
 import org.robolectric.annotation.Implementation;
@@ -15,10 +16,12 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import static android.os.Build.VERSION_CODES.KITKAT_WATCH;
+
 /**
  * Shadow for {@link android.text.format.Time}.
  */
-@Implements(value = Time.class, maxSdk = 20) // todo: setToNow should be omnipresent though
+@Implements(value = Time.class, maxSdk = KITKAT_WATCH) // todo: setToNow should be omnipresent though
 public class ShadowTime {
   @RealObject
   private Time time;

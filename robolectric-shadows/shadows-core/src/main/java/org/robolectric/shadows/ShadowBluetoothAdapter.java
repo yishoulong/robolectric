@@ -11,6 +11,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import static android.os.Build.VERSION_CODES;
+import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR2;
+
 /**
  * Shadow for {@link android.bluetooth.BluetoothAdapter}.
  */
@@ -52,19 +55,19 @@ public class ShadowBluetoothAdapter {
     return true;
   }
 
-  @Implementation(from = 18)
+  @Implementation(minSdk = JELLY_BEAN_MR2)
   public boolean startLeScan(LeScanCallback callback) {
     return startLeScan(null, callback);
   }
 
-  @Implementation(from = 18)
+  @Implementation(minSdk = JELLY_BEAN_MR2)
   public boolean startLeScan(UUID[] serviceUuids, LeScanCallback callback) {
     // Ignoring the serviceUuids param for now.
     leScanCallbacks.add(callback);
     return true;
   }
 
-  @Implementation(from = 18)
+  @Implementation(minSdk = JELLY_BEAN_MR2)
   public void stopLeScan(LeScanCallback callback) {
     leScanCallbacks.remove(callback);
   }

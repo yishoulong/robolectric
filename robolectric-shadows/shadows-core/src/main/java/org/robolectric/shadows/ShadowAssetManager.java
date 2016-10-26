@@ -40,12 +40,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
+import static android.os.Build.VERSION_CODES.KITKAT_WATCH;
 import static org.robolectric.Shadows.shadowOf;
 
 /**
@@ -153,12 +153,12 @@ public final class ShadowAssetManager {
     return charSequences;
   }
 
-  @HiddenApi @Implementation(to = LOLLIPOP - 1)
+  @HiddenApi @Implementation(maxSdk = KITKAT_WATCH)
   public boolean getThemeValue(int themePtr, int ident, TypedValue outValue, boolean resolveRefs) {
     return getThemeValue((long) themePtr, ident, outValue, resolveRefs);
   }
 
-  @HiddenApi @Implementation(from = LOLLIPOP)
+  @HiddenApi @Implementation(minSdk = LOLLIPOP)
   public boolean getThemeValue(long themePtr, int ident, TypedValue outValue, boolean resolveRefs) {
     ResourceIndex resourceIndex = resourceLoader.getResourceIndex();
     ResName resName = resourceIndex.getResName(ident);
@@ -324,36 +324,36 @@ public final class ShadowAssetManager {
     return themeRef.get();
   }
 
-  @HiddenApi @Implementation(to = LOLLIPOP - 1)
+  @HiddenApi @Implementation(maxSdk = KITKAT_WATCH)
   public void releaseTheme(int themePtr) {
     themes.remove(themePtr);
   }
 
-  @HiddenApi @Implementation(from = LOLLIPOP)
+  @HiddenApi @Implementation(minSdk = LOLLIPOP)
   public void releaseTheme(long themePtr) {
     synchronized (themes) {
       themes.remove(themePtr);
     }
   }
 
-  @HiddenApi @Implementation(to = LOLLIPOP - 1)
+  @HiddenApi @Implementation(maxSdk = KITKAT_WATCH)
   public static void applyThemeStyle(int themePtr, int styleRes, boolean force) {
     applyThemeStyle((long) themePtr, styleRes, force);
   }
 
-  @HiddenApi @Implementation(from = LOLLIPOP)
+  @HiddenApi @Implementation(minSdk = LOLLIPOP)
   public static void applyThemeStyle(long themePtr, int styleRes, boolean force) {
     Resources.Theme theme = getTheme(themePtr);
     ShadowResources.ShadowTheme shadowTheme = shadowOf(theme);
     shadowTheme.doApplyStyle(styleRes, force);
 }
 
-  @HiddenApi @Implementation(to = LOLLIPOP - 1)
+  @HiddenApi @Implementation(maxSdk = KITKAT_WATCH)
   public static void copyTheme(int destPtr, int sourcePtr) {
     copyTheme((long) destPtr, (long) sourcePtr);
   }
 
-  @HiddenApi @Implementation(from = LOLLIPOP)
+  @HiddenApi @Implementation(minSdk = LOLLIPOP)
   public static void copyTheme(long destPtr, long sourcePtr) {
     Resources.Theme destTheme = getTheme(destPtr);
     Resources.Theme sourceTheme = getTheme(sourcePtr);

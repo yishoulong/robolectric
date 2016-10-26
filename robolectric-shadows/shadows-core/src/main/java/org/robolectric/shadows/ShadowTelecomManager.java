@@ -21,10 +21,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import static android.os.Build.VERSION_CODES;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
+import static android.os.Build.VERSION_CODES.LOLLIPOP_MR1;
+import static android.os.Build.VERSION_CODES.M;
+
 /**
  * Shadow for {@link android.telecom.TelecomManager}.
  */
-@Implements(value = TelecomManager.class, minSdk = 21)
+@Implements(value = TelecomManager.class, minSdk = LOLLIPOP)
 public class ShadowTelecomManager {
 
   @RealObject
@@ -78,12 +83,12 @@ public class ShadowTelecomManager {
     return result;
   }
 
-  @Implementation(from = 23)
+  @Implementation(minSdk = M)
   public List<PhoneAccountHandle> getCallCapablePhoneAccounts() {
     return this.getCallCapablePhoneAccounts(false);
   }
 
-  @Implementation(from = 23)
+  @Implementation(minSdk = M)
   public List<PhoneAccountHandle> getCallCapablePhoneAccounts(boolean includeDisabledAccounts) {
     List<PhoneAccountHandle> result = new LinkedList<>();
 
@@ -147,7 +152,7 @@ public class ShadowTelecomManager {
   }
 
 
-  @Implementation(from = 22)
+  @Implementation(minSdk = LOLLIPOP_MR1)
   public void clearAccountsForPackage(String packageName) {
     Set<PhoneAccountHandle> phoneAccountHandlesInPackage = new HashSet<>();
 
@@ -168,12 +173,12 @@ public class ShadowTelecomManager {
     return null;
   }
 
-  @Implementation(from = 23)
+  @Implementation(minSdk = M)
   public String getDefaultDialerPackage() {
     return defaultDialerPackageName;
   }
 
-  @Implementation(from = 23)
+  @Implementation(minSdk = M)
   public boolean setDefaultDialer(String packageName) {
     this.defaultDialerPackageName = packageName;
     return true;

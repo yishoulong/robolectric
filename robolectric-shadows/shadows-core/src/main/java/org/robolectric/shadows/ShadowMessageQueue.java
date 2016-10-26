@@ -5,14 +5,15 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.MessageQueue;
 
-import javax.annotation.Generated;
-
 import org.robolectric.annotation.HiddenApi;
 import org.robolectric.annotation.Implementation;
 import org.robolectric.annotation.Implements;
 import org.robolectric.annotation.RealObject;
 import org.robolectric.util.Scheduler;
 
+import static android.os.Build.VERSION_CODES;
+import static android.os.Build.VERSION_CODES.KITKAT_WATCH;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static org.robolectric.Shadows.shadowOf;
 import static org.robolectric.internal.Shadow.*;
 import static org.robolectric.util.ReflectionHelpers.*;
@@ -45,44 +46,44 @@ public class ShadowMessageQueue {
   }
 
   @HiddenApi
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static void nativeDestroy(int ptr) {
     nativeDestroy((long) ptr);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static void nativeDestroy(long ptr) {
   }
 
   @HiddenApi
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static void nativePollOnce(int ptr, int timeoutMillis) {
     nativePollOnce((long) ptr, timeoutMillis);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static void nativePollOnce(long ptr, int timeoutMillis) {
     throw new AssertionError("Should not be called");
   }
 
   @HiddenApi
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static void nativeWake(int ptr) {
     nativeWake((long) ptr);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static void nativeWake(long ptr) {
     throw new AssertionError("Should not be called");
   }
 
   @HiddenApi
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static boolean nativeIsIdling(int ptr) {
     return nativeIsIdling((long) ptr);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static boolean nativeIsIdling(long ptr) {
     return false;
   }

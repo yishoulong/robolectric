@@ -7,8 +7,6 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.content.ComponentName;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Selection;
@@ -20,14 +18,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.HiddenApi;
 import org.robolectric.annotation.Implementation;
 import org.robolectric.annotation.Implements;
 import org.robolectric.annotation.RealObject;
 import org.robolectric.fakes.RoboMenuItem;
 import org.robolectric.manifest.AndroidManifest;
-import org.robolectric.res.ResName;
 import org.robolectric.util.ReflectionHelpers;
 
 import java.lang.reflect.InvocationTargetException;
@@ -37,6 +33,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static android.os.Build.VERSION_CODES;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
+import static android.os.Build.VERSION_CODES.M;
 import static org.robolectric.Shadows.shadowOf;
 import static org.robolectric.internal.Shadow.directlyOn;
 import static org.robolectric.internal.Shadow.invokeConstructor;
@@ -187,7 +186,7 @@ public class ShadowActivity extends ShadowContextThemeWrapper {
     finishWasCalled = true;
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public void finishAndRemoveTask() {
     finishWasCalled = true;
   }
@@ -563,7 +562,7 @@ public class ShadowActivity extends ShadowContextThemeWrapper {
     startActivityForResult(intent, requestCode, options);
   }
 
-  @Implementation(from = 23)
+  @Implementation(minSdk = M)
   public final void requestPermissions(String[] permissions, int requestCode) {
   }
 

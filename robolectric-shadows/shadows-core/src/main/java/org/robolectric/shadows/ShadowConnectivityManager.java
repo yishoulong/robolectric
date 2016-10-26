@@ -17,6 +17,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import static android.os.Build.VERSION_CODES;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
+import static android.os.Build.VERSION_CODES.M;
+
 /**
  * Shadow for {@link android.net.ConnectivityManager}.
  */
@@ -57,12 +61,12 @@ public class ShadowConnectivityManager {
     return networkCallbacks;
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public void registerNetworkCallback(NetworkRequest request, ConnectivityManager.NetworkCallback networkCallback) {
     networkCallbacks.add(networkCallback);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public void unregisterNetworkCallback (ConnectivityManager.NetworkCallback networkCallback) {
     if (networkCallback == null) {
       throw new IllegalArgumentException("Invalid NetworkCallback");
@@ -77,7 +81,7 @@ public class ShadowConnectivityManager {
     return activeNetworkInfo;
   }
 
-  @Implementation(from = 23)
+  @Implementation(minSdk = M)
   public Network getActiveNetwork() {
     return netIdToNetwork.get(getActiveNetworkInfo().getType());
   }
@@ -92,13 +96,13 @@ public class ShadowConnectivityManager {
     return networkTypeToNetworkInfo.get(networkType);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public NetworkInfo getNetworkInfo(Network network) {
     ShadowNetwork shadowNetwork = Shadows.shadowOf(network);
     return netIdToNetworkInfo.get(shadowNetwork.getNetId());
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public Network[] getAllNetworks() {
     return netIdToNetwork.values().toArray(new Network[netIdToNetwork.size()]);
   }

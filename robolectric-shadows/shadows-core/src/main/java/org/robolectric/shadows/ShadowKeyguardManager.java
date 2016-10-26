@@ -6,6 +6,9 @@ import org.robolectric.annotation.Implements;
 import org.robolectric.annotation.RealObject;
 import org.robolectric.internal.Shadow;
 
+import static android.os.Build.VERSION_CODES;
+import static android.os.Build.VERSION_CODES.M;
+
 /**
  * Shadow for {@link android.app.KeyguardManager}.
  */
@@ -33,7 +36,7 @@ public class ShadowKeyguardManager {
 
   private boolean isKeyguardSecure;
 
-  @Implementation(from = 23)
+  @Implementation(minSdk = M)
   public boolean isKeyguardSecure() {
     return isKeyguardSecure;
   }
@@ -44,7 +47,7 @@ public class ShadowKeyguardManager {
 
   private boolean isDeviceSecure;
 
-  @Implementation(from = 23)
+  @Implementation(minSdk = M)
   public boolean isDeviceSecure() {
     return isDeviceSecure;
   }

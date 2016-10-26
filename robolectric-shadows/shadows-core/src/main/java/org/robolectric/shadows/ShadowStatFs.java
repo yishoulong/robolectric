@@ -9,6 +9,9 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.os.Build.VERSION_CODES;
+import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR2;
+
 /**
  * Shadow for {@link android.os.StatFs}.
  */
@@ -51,17 +54,17 @@ public class ShadowStatFs {
     }
   }
 
-  @Implementation(from = 18)
+  @Implementation(minSdk = JELLY_BEAN_MR2)
   public long getBlockSizeLong() {
     return BLOCK_SIZE;
   }
 
-  @Implementation(from = 18)
+  @Implementation(minSdk = JELLY_BEAN_MR2)
   public long getBlockCountLong() {
     return stat.blockCount;
   }
 
-  @Implementation(from = 18)
+  @Implementation(minSdk = JELLY_BEAN_MR2)
   public long getAvailableBlocksLong() {
     return stat.availableBlocks;
   }

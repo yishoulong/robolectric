@@ -11,6 +11,9 @@ import org.robolectric.internal.Shadow;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.os.Build.VERSION_CODES;
+import static android.os.Build.VERSION_CODES.KITKAT_WATCH;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static org.robolectric.Shadows.shadowOf;
 import static org.robolectric.shadows.ShadowApplication.getInstance;
 
@@ -39,7 +42,7 @@ public class ShadowPowerManager {
     isScreenOn = screenOn;
   }
 
-  @Implementation(from = 20)
+  @Implementation(minSdk = KITKAT_WATCH)
   public boolean isInteractive() {
     return isInteractive;
   }
@@ -48,7 +51,7 @@ public class ShadowPowerManager {
     isInteractive = interactive;
   }
 
-  @Implementation(from = 20)
+  @Implementation(minSdk = KITKAT_WATCH)
   public boolean isPowerSaveMode() {
     return isPowerSaveMode;
   }
@@ -59,7 +62,7 @@ public class ShadowPowerManager {
 
   private Map<Integer, Boolean> supportedWakeLockLevels = new HashMap<>();
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public boolean isWakeLockLevelSupported(int level) {
     return supportedWakeLockLevels.containsKey(level) ? supportedWakeLockLevels.get(level) : false;
   }

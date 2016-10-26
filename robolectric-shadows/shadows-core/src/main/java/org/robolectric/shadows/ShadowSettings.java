@@ -1,6 +1,7 @@
 package org.robolectric.shadows;
 
 import android.content.ContentResolver;
+import android.os.Build;
 import android.provider.Settings;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Implementation;
@@ -9,6 +10,8 @@ import org.robolectric.annotation.Implements;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
+
+import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR1;
 
 /**
  * Shadow for {@link android.provider.Settings}.
@@ -59,7 +62,7 @@ public class ShadowSettings {
       }
     }
 
-    @Implementation(from = 17)
+    @Implementation(minSdk = JELLY_BEAN_MR1)
     public static String getStringForUser(ContentResolver cr, String name, int userHandle) {
       return getString(cr, name);
     }
@@ -126,7 +129,7 @@ public class ShadowSettings {
   public static class ShadowSecure extends ShadowSystem {
   }
 
-  @Implements(value = Settings.Global.class, inheritImplementationMethods = true, minSdk = 17)
+  @Implements(value = Settings.Global.class, inheritImplementationMethods = true, minSdk = JELLY_BEAN_MR1)
   public static class ShadowGlobal extends ShadowSystem {
   }
 

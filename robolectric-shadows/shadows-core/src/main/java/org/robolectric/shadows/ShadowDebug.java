@@ -9,6 +9,9 @@ import org.robolectric.annotation.Implements;
 
 import java.util.Map;
 
+import static android.os.Build.VERSION_CODES;
+import static android.os.Build.VERSION_CODES.M;
+
 /**
  * Shadow for {@link android.os.Debug}.
  */
@@ -24,7 +27,7 @@ public class ShadowDebug {
     return Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
   }
 
-  @Implementation(from = 23)
+  @Implementation(minSdk = M)
   public static Map<String, String> getRuntimeStats() {
     return ImmutableMap.<String, String>builder().build();
   }

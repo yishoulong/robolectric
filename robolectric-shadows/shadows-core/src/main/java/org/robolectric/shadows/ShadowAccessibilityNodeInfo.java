@@ -32,6 +32,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR2;
+import static android.os.Build.VERSION_CODES.KITKAT;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
+import static android.os.Build.VERSION_CODES.LOLLIPOP_MR1;
 import static org.robolectric.Shadows.shadowOf;
 /**
  * Shadow of {@link android.view.accessibility.AccessibilityNodeInfo} that allows a test to set
@@ -452,46 +456,46 @@ public class ShadowAccessibilityNodeInfo {
     return ((propertyFlags & A11YFOCUSED_MASK) != 0);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public void setMultiLine(boolean multiLine) {
     propertyFlags = (propertyFlags & ~MULTILINE_MASK) |
         (multiLine ? MULTILINE_MASK : 0);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public boolean isMultiLine() {
     return ((propertyFlags & MULTILINE_MASK) != 0);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public void setContentInvalid(boolean contentInvalid) {
     propertyFlags = (propertyFlags & ~CONTENT_INVALID_MASK) |
         (contentInvalid ? CONTENT_INVALID_MASK : 0);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public boolean isContentInvalid() {
     return ((propertyFlags & CONTENT_INVALID_MASK) != 0);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public void setDismissable(boolean dismissable) {
     propertyFlags = (propertyFlags & ~DISMISSABLE_MASK) |
         (dismissable ? DISMISSABLE_MASK : 0);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public boolean isDismissable() {
     return ((propertyFlags & DISMISSABLE_MASK) != 0);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public void setCanOpenPopup(boolean opensPopup) {
     propertyFlags = (propertyFlags & ~CAN_OPEN_POPUP_MASK) |
         (opensPopup ? CAN_OPEN_POPUP_MASK : 0);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public boolean canOpenPopup() {
     return ((propertyFlags & CAN_OPEN_POPUP_MASK) != 0);
   }
@@ -652,87 +656,87 @@ public class ShadowAccessibilityNodeInfo {
     this.packageName = packageName;
   }
 
-  @Implementation(from = 18)
+  @Implementation(minSdk = JELLY_BEAN_MR2)
   public String getViewIdResourceName() {
     return viewIdResourceName;
   }
 
-  @Implementation(from = 18)
+  @Implementation(minSdk = JELLY_BEAN_MR2)
   public void setViewIdResourceName(String viewIdResourceName) {
     this.viewIdResourceName = viewIdResourceName;
   }
 
-  @Implementation(from = 19)
+  @Implementation(minSdk = KITKAT)
   public CollectionInfo getCollectionInfo() {
     return collectionInfo;
   }
 
-  @Implementation(from = 19)
+  @Implementation(minSdk = KITKAT)
   public void setCollectionInfo(CollectionInfo collectionInfo) {
     this.collectionInfo = collectionInfo;
   }
 
-  @Implementation(from = 19)
+  @Implementation(minSdk = KITKAT)
   public CollectionItemInfo getCollectionItemInfo() {
     return collectionItemInfo;
   }
 
-  @Implementation(from = 19)
+  @Implementation(minSdk = KITKAT)
   public void setCollectionItemInfo(CollectionItemInfo collectionItemInfo) {
     this.collectionItemInfo = collectionItemInfo;
   }
 
-  @Implementation(from = 19)
+  @Implementation(minSdk = KITKAT)
   public int getInputType() {
     return inputType;
   }
 
-  @Implementation(from = 19)
+  @Implementation(minSdk = KITKAT)
   public void setInputType(int inputType) {
     this.inputType = inputType;
   }
 
-  @Implementation(from = 19)
+  @Implementation(minSdk = KITKAT)
   public int getLiveRegion() {
     return liveRegion;
   }
 
-  @Implementation(from = 19)
+  @Implementation(minSdk = KITKAT)
   public void setLiveRegion(int liveRegion) {
     this.liveRegion = liveRegion;
   }
 
-  @Implementation(from = 19)
+  @Implementation(minSdk = KITKAT)
   public RangeInfo getRangeInfo() {
     return rangeInfo;
   }
 
-  @Implementation(from = 19)
+  @Implementation(minSdk = KITKAT)
   public void setRangeInfo(RangeInfo rangeInfo) {
     this.rangeInfo = rangeInfo;
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public int getMaxTextLength() {
     return maxTextLength;
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public void setMaxTextLength(int maxTextLength) {
     this.maxTextLength = maxTextLength;
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public CharSequence getError() {
     return error;
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public void setError(CharSequence error) {
     this.error = error;
   }
 
-  @Implementation(from = 22)
+  @Implementation(minSdk = LOLLIPOP_MR1)
   public AccessibilityNodeInfo getTraversalAfter() {
     if (traversalAfter == null) {
       return null;
@@ -741,7 +745,7 @@ public class ShadowAccessibilityNodeInfo {
     return obtain(traversalAfter);
   }
 
-  @Implementation(from = 22)
+  @Implementation(minSdk = LOLLIPOP_MR1)
   public void setTraversalAfter(AccessibilityNodeInfo info) {
     if (this.traversalAfter != null) {
       this.traversalAfter.recycle();
@@ -750,7 +754,7 @@ public class ShadowAccessibilityNodeInfo {
     this.traversalAfter = obtain(info);
   }
 
-  @Implementation(from = 22)
+  @Implementation(minSdk = LOLLIPOP_MR1)
   public AccessibilityNodeInfo getTraversalBefore() {
     if (traversalBefore == null) {
       return null;
@@ -759,7 +763,7 @@ public class ShadowAccessibilityNodeInfo {
     return obtain(traversalBefore);
   }
 
-  @Implementation(from = 22)
+  @Implementation(minSdk = LOLLIPOP_MR1)
   public void setTraversalBefore(AccessibilityNodeInfo info) {
     if (this.traversalBefore != null) {
       this.traversalBefore.recycle();
@@ -831,7 +835,7 @@ public class ShadowAccessibilityNodeInfo {
     }
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public void addAction(AccessibilityAction action) {
     if (action == null) {
       return;
@@ -844,13 +848,13 @@ public class ShadowAccessibilityNodeInfo {
     actionsArray.add(action);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public void removeAction(int action) {
     AccessibilityAction convertedAction = getActionFromIdFromFrameWork(action);
     removeAction(convertedAction);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public boolean removeAction(AccessibilityAction action) {
     if (action == null || actionsArray == null) {
       return false;
@@ -887,7 +891,7 @@ public class ShadowAccessibilityNodeInfo {
     }
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public AccessibilityWindowInfo getWindow() {
     return accessibilityWindowInfo;
   }
@@ -896,7 +900,7 @@ public class ShadowAccessibilityNodeInfo {
     accessibilityWindowInfo = info;
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public List<AccessibilityAction> getActionList() {
     if (actionsArray == null) {
       return Collections.emptyList();
@@ -1237,7 +1241,7 @@ public class ShadowAccessibilityNodeInfo {
   /**
    * Shadow of AccessibilityAction.
    */
-  @Implements(value = AccessibilityNodeInfo.AccessibilityAction.class, minSdk = 21)
+  @Implements(value = AccessibilityNodeInfo.AccessibilityAction.class, minSdk = LOLLIPOP)
   public static final class ShadowAccessibilityAction {
     private int id;
     private CharSequence label;

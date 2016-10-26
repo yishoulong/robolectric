@@ -9,10 +9,12 @@ import libcore.icu.DateIntervalFormat;
 import org.robolectric.annotation.Implements;
 import org.robolectric.annotation.Implementation;
 
+import static android.os.Build.VERSION_CODES.KITKAT;
+
 /**
  * Shadow for {@link libcore.icu.DateIntervalFormat}.
  */
-@Implements(value = DateIntervalFormat.class, isInAndroidSdk = false, minSdk = 19)
+@Implements(value = DateIntervalFormat.class, isInAndroidSdk = false, minSdk = KITKAT)
 public class ShadowDateIntervalFormat {
 
   private static long address;

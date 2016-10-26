@@ -8,10 +8,12 @@ import org.robolectric.annotation.Implementation;
 import org.robolectric.annotation.Implements;
 import org.robolectric.internal.Shadow;
 
+import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR2;
+
 /**
  * Shadow for {@link android.telephony.SmsManager}.
  */
-@Implements(value = SmsManager.class, minSdk = 18)
+@Implements(value = SmsManager.class, minSdk = JELLY_BEAN_MR2)
 public class ShadowSmsManager {
   private static SmsManager realManager = Shadow.newInstanceOf(SmsManager.class);
   private TextSmsParams lastTextSmsParams;

@@ -9,6 +9,10 @@ import java.util.List;
 import org.robolectric.annotation.Implementation;
 import org.robolectric.annotation.Implements;
 
+import static android.os.Build.VERSION_CODES;
+import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR1;
+import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR2;
+
 /**
  * Shadow for {@link android.telephony.TelephonyManager}.
  */
@@ -166,7 +170,7 @@ public class ShadowTelephonyManager {
     this.networkType = networkType;
   }
 
-  @Implementation(from = 17)
+  @Implementation(minSdk = JELLY_BEAN_MR1)
   public List<CellInfo> getAllCellInfo() {
     return allCellInfo;
   }
@@ -184,7 +188,7 @@ public class ShadowTelephonyManager {
     this.cellLocation = cellLocation;
   }
 
-  @Implementation(from = 18)
+  @Implementation(minSdk = JELLY_BEAN_MR2)
   public String getGroupIdLevel1() {
     return this.groupIdLevel1;
   }

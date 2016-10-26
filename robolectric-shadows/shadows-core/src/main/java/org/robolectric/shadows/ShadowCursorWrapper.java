@@ -11,6 +11,10 @@ import android.os.Bundle;
 import org.robolectric.annotation.Implementation;
 import org.robolectric.annotation.Implements;
 
+import static android.os.Build.VERSION_CODES;
+import static android.os.Build.VERSION_CODES.KITKAT;
+import static android.os.Build.VERSION_CODES.M;
+
 /**
  * Shadow for {@link android.database.CursorWrapper}.
  */
@@ -197,7 +201,7 @@ public class ShadowCursorWrapper implements Cursor {
     wrappedCursor.setNotificationUri(contentResolver, uri);
   }
 
-  @Implementation(from = 19)
+  @Implementation(minSdk = KITKAT)
   public Uri getNotificationUri() {
     return wrappedCursor.getNotificationUri();
   }
@@ -207,7 +211,7 @@ public class ShadowCursorWrapper implements Cursor {
     return wrappedCursor.getWantsAllOnMoveCalls();
   }
 
-  @Implementation(from = 23)
+  @Implementation(minSdk = M)
   public void setExtras(Bundle extras) {
     wrappedCursor.setExtras(extras);
   }

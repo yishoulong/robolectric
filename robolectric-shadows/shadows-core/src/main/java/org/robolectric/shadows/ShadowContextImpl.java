@@ -31,6 +31,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.os.Build.VERSION_CODES.LOLLIPOP_MR1;
 import static org.robolectric.internal.Shadow.directlyOn;
 import static org.robolectric.internal.Shadow.newInstanceOf;
 import static org.robolectric.util.ReflectionHelpers.ClassParameter.from;
@@ -129,7 +130,7 @@ public class ShadowContextImpl {
 
   private Map<String, Object> systemServices = new HashMap<String, Object>();
 
-  @Implements(className = ShadowServiceFetcher.CLASS_NAME, looseSignatures = true, maxSdk = 22)
+  @Implements(className = ShadowServiceFetcher.CLASS_NAME, looseSignatures = true, maxSdk = LOLLIPOP_MR1)
   public static class ShadowServiceFetcher {
     public static final String CLASS_NAME = "android.app.ContextImpl$ServiceFetcher";
 

@@ -18,9 +18,9 @@ import org.robolectric.util.ReflectionHelpers;
 import org.robolectric.internal.Shadow;
 import org.robolectric.util.ReflectionHelpers.ClassParameter;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.List;
+
+import static android.os.Build.VERSION_CODES.KITKAT;
 
 /**
  * Shadow for {@link android.view.accessibility.AccessibilityManager}.
@@ -34,7 +34,8 @@ public class ShadowAccessibilityManager {
   private List<ServiceInfo> accessibilityServiceList;
   private boolean touchExplorationEnabled;
 
-  @HiddenApi @Implementation(from = 19)
+  @HiddenApi
+  @Implementation(minSdk = KITKAT)
   public static AccessibilityManager getInstance(Context context) throws Exception {
     if (Build.VERSION.SDK_INT >= 19) {
       AccessibilityManager accessibilityManager = Shadow.newInstance(AccessibilityManager.class, new Class[] {Context.class, IAccessibilityManager.class, int.class}, new Object[] {context, new AccessibilityManagerService(context), 0});

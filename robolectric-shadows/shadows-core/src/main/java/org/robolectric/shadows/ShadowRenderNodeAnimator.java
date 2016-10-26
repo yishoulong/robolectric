@@ -10,12 +10,16 @@ import org.robolectric.annotation.RealObject;
 import org.robolectric.annotation.Resetter;
 import org.robolectric.util.ReflectionHelpers;
 
+import static android.os.Build.VERSION_CODES;
+import static android.os.Build.VERSION_CODES.KITKAT_WATCH;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
+import static android.os.Build.VERSION_CODES.LOLLIPOP_MR1;
 import static org.robolectric.internal.Shadow.directlyOn;
 
 /**
  * Shadow for {@link android.view.RenderNodeAnimator}.
  */
-@Implements(value = RenderNodeAnimator.class, isInAndroidSdk = false, minSdk = 21)
+@Implements(value = RenderNodeAnimator.class, isInAndroidSdk = false, minSdk = LOLLIPOP)
 public class ShadowRenderNodeAnimator {
   private static final int STATE_FINISHED = 3;
 
@@ -35,7 +39,7 @@ public class ShadowRenderNodeAnimator {
         RenderNodeAnimator.class, "sAnimationHelper", new ThreadLocal<>());
   }
 
-  @Implementation(from = 22)
+  @Implementation(minSdk = LOLLIPOP_MR1)
   public void moveToRunningState() {
     directlyOn(realObject, RenderNodeAnimator.class, "moveToRunningState");
     if (!isEnding) {
@@ -46,19 +50,19 @@ public class ShadowRenderNodeAnimator {
     }
   }
 
-  @Implementation(to = 21)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public void doStart() {
     directlyOn(realObject, RenderNodeAnimator.class, "doStart");
-    if (Build.VERSION.SDK_INT <= 21) {
+    if (Build.VERSION.SDK_INT <= LOLLIPOP) {
       schedule();
     }
   }
 
-  @Implementation(to = 21)
+  @Implementation(maxSdk = LOLLIPOP)
   public void cancel() {
     directlyOn(realObject, RenderNodeAnimator.class).cancel();
 
-    if (Build.VERSION.SDK_INT <= 21) {
+    if (Build.VERSION.SDK_INT <= LOLLIPOP) {
       int state = ReflectionHelpers.getField(realObject, "mState");
       if (state != STATE_FINISHED) {
         // In 21, RenderNodeAnimator only calls nEnd, it doesn't call the Java end method. Thus, it

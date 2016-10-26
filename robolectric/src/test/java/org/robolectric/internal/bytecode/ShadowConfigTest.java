@@ -5,6 +5,10 @@ import org.robolectric.annotation.Implementation;
 
 import java.lang.reflect.Method;
 
+import static android.os.Build.VERSION_CODES;
+import static android.os.Build.VERSION_CODES.KITKAT;
+import static android.os.Build.VERSION_CODES.KITKAT_WATCH;
+
 public class ShadowConfigTest {
   @Test
   public void supportsSdk() throws Exception {
@@ -22,19 +26,19 @@ public class ShadowConfigTest {
   void methodWithoutFromOrTo() {
   }
 
-  @Implementation(from = 20)
+  @Implementation(minSdk = KITKAT_WATCH)
   void methodWithFrom() {
   }
 
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   void methodWithTo() {
   }
 
-  @Implementation(from = 19, to = 21)
+  @Implementation(minSdk = KITKAT)
   void methodWithFromAndTo() {
   }
 
-  @Implementation(from = 20, to = 20)
+  @Implementation(minSdk = KITKAT_WATCH)
   void methodWithSameFromAndTo() {
   }
 }

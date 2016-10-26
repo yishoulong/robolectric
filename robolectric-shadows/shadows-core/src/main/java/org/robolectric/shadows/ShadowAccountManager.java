@@ -29,6 +29,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
+import static android.os.Build.VERSION_CODES;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
+
 /**
  * Shadow for {@link android.accounts.AccountManager}.
  */
@@ -421,7 +424,7 @@ public class ShadowAccountManager {
     previousNames.put(account, previousName);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public String getPreviousName(Account account) {
     return previousNames.get(account);
   }

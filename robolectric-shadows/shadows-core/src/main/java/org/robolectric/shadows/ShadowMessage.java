@@ -1,10 +1,9 @@
 package org.robolectric.shadows;
 
 import android.os.Build;
+import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.os.Message;
-
-import javax.annotation.Generated;
 
 import org.robolectric.annotation.HiddenApi;
 import org.robolectric.annotation.Implementation;
@@ -12,6 +11,7 @@ import org.robolectric.annotation.Implements;
 import org.robolectric.annotation.RealObject;
 import org.robolectric.annotation.Resetter;
 
+import static android.os.Build.VERSION_CODES.*;
 import static org.robolectric.Shadows.shadowOf;
 import static org.robolectric.internal.Shadow.*;
 import static org.robolectric.util.ReflectionHelpers.*;
@@ -54,7 +54,7 @@ public class ShadowMessage {
     }
   }
 
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   /**
    * Hook to unscheduled the callback when the message is recycled.
    * Invokes {@link #unschedule()} and then calls through to

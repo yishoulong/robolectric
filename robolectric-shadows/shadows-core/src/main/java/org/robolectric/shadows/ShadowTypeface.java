@@ -15,7 +15,6 @@ import org.robolectric.annotation.Resetter;
 import org.robolectric.manifest.AndroidManifest;
 import org.robolectric.util.ReflectionHelpers;
 import org.robolectric.util.ReflectionHelpers.ClassParameter;
-import javax.annotation.Generated;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -23,6 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static android.os.Build.VERSION_CODES;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static org.robolectric.Shadows.shadowOf;
 
 /**
@@ -96,13 +97,13 @@ public class ShadowTypeface {
   }
 
   @HiddenApi
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static Typeface createFromFamilies(FontFamily[] families) {
     return null;
   }
 
   @HiddenApi
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static Typeface createFromFamiliesWithDefault(FontFamily[] families) {
     return null;
   }

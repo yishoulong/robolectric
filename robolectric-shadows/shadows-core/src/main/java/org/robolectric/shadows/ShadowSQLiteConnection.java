@@ -39,10 +39,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.annotation.Generated;
+
+import static android.os.Build.VERSION_CODES;
+import static android.os.Build.VERSION_CODES.KITKAT_WATCH;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
 
 /**
  * Shadow for {@link android.database.sqlite.SQLiteConnection}.
@@ -73,12 +75,12 @@ public class ShadowSQLiteConnection {
     return CONNECTIONS.open(path);
   }
 
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static int nativePrepareStatement(int connectionPtr, String sql) {
     return (int) nativePrepareStatement((long) connectionPtr, sql);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static long nativePrepareStatement(long connectionPtr, String sql) {
     final String newSql = convertSQLWithLocalizedUnicodeCollator(sql);
     return CONNECTIONS.prepareStatement(connectionPtr, newSql);
@@ -97,32 +99,32 @@ public class ShadowSQLiteConnection {
     CONNECTIONS.reset();
   }
 
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static void nativeClose(int connectionPtr) {
     nativeClose((long) connectionPtr);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static void nativeClose(long connectionPtr) {
     CONNECTIONS.close(connectionPtr);
   }
 
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static void nativeFinalizeStatement(int connectionPtr, int statementPtr) {
     nativeFinalizeStatement((long) connectionPtr, statementPtr);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static void nativeFinalizeStatement(long connectionPtr, long statementPtr) {
     CONNECTIONS.finalizeStmt(connectionPtr, statementPtr);
   }
 
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static int nativeGetParameterCount(int connectionPtr, int statementPtr) {
     return nativeGetParameterCount((long) connectionPtr, statementPtr);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static int nativeGetParameterCount(final long connectionPtr, final long statementPtr) {
     if (statementPtr == IGNORED_REINDEX_STMT) { return 0; }
     return CONNECTIONS.execute("get parameters count in prepared statement", new Callable<Integer>() {
@@ -134,12 +136,12 @@ public class ShadowSQLiteConnection {
     });
   }
 
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static boolean nativeIsReadOnly(int connectionPtr, int statementPtr) {
     return nativeIsReadOnly((long) connectionPtr, (long) statementPtr);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static boolean nativeIsReadOnly(final long connectionPtr, final long statementPtr) {
     if (statementPtr == IGNORED_REINDEX_STMT) { return true; }
     return CONNECTIONS.execute("call isReadOnly", new Callable<Boolean>() {
@@ -151,12 +153,12 @@ public class ShadowSQLiteConnection {
     });
   }
 
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static long nativeExecuteForLong(int connectionPtr, int statementPtr) {
     return nativeExecuteForLong((long) connectionPtr, (long) statementPtr);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static long nativeExecuteForLong(final long connectionPtr, final long statementPtr) {
     return CONNECTIONS.execute("execute for long", new Callable<Long>() {
       @Override
@@ -170,12 +172,12 @@ public class ShadowSQLiteConnection {
     });
   }
 
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static void nativeExecute(int connectionPtr, int statementPtr) {
     nativeExecute((long) connectionPtr, (long) statementPtr);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static void nativeExecute(final long connectionPtr, final long statementPtr) {
     if (statementPtr == IGNORED_REINDEX_STMT) { return; }
     CONNECTIONS.execute("execute", new Callable<Object>() {
@@ -188,12 +190,12 @@ public class ShadowSQLiteConnection {
     });
   }
 
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static String nativeExecuteForString(int connectionPtr, int statementPtr) {
     return nativeExecuteForString((long) connectionPtr, (long) statementPtr);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static String nativeExecuteForString(final long connectionPtr, final long statementPtr) {
     return CONNECTIONS.execute("execute for string", new Callable<String>() {
       @Override
@@ -207,12 +209,12 @@ public class ShadowSQLiteConnection {
     });
   }
 
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static int nativeGetColumnCount(int connectionPtr, int statementPtr) {
     return nativeGetColumnCount((long) connectionPtr, (long) statementPtr);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static int nativeGetColumnCount(final long connectionPtr, final long statementPtr) {
     return CONNECTIONS.execute("get columns count", new Callable<Integer>() {
       @Override
@@ -223,12 +225,12 @@ public class ShadowSQLiteConnection {
     });
   }
 
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static String nativeGetColumnName(int connectionPtr, int statementPtr, int index) {
     return nativeGetColumnName((long) connectionPtr, (long) statementPtr, index);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static String nativeGetColumnName(final long connectionPtr, final long statementPtr, final int index) {
     return CONNECTIONS.execute("get column name at index " + index, new Callable<String>() {
       @Override
@@ -239,12 +241,12 @@ public class ShadowSQLiteConnection {
     });
   }
 
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static void nativeBindNull(int connectionPtr, int statementPtr, int index) {
     nativeBindNull((long) connectionPtr, (long) statementPtr, index);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static void nativeBindNull(final long connectionPtr, final long statementPtr, final int index) {
     CONNECTIONS.execute("bind null at index " + index, new Callable<Object>() {
       @Override
@@ -256,12 +258,12 @@ public class ShadowSQLiteConnection {
     });
   }
 
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static void nativeBindLong(int connectionPtr, int statementPtr, int index, long value) {
     nativeBindLong((long) connectionPtr, (long) statementPtr, index, value);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static void nativeBindLong(final long connectionPtr, final long statementPtr, final int index, final long value) {
     CONNECTIONS.execute("bind long at index " + index + " with value " + value, new Callable<Object>() {
       @Override
@@ -273,12 +275,12 @@ public class ShadowSQLiteConnection {
     });
   }
 
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static void nativeBindDouble(int connectionPtr, int statementPtr, int index, double value) {
     nativeBindDouble((long) connectionPtr, (long) statementPtr, index, value);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static void nativeBindDouble(final long connectionPtr, final long statementPtr, final int index, final double value) {
     CONNECTIONS.execute("bind double at index " + index + " with value " + value, new Callable<Object>() {
       @Override
@@ -290,12 +292,12 @@ public class ShadowSQLiteConnection {
     });
   }
 
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static void nativeBindString(int connectionPtr, int statementPtr, int index, String value) {
     nativeBindString((long) connectionPtr, (long) statementPtr, index, value);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static void nativeBindString(final long connectionPtr, final long statementPtr, final int index, final String value) {
     CONNECTIONS.execute("bind string at index " + index, new Callable<Object>() {
       @Override
@@ -307,12 +309,12 @@ public class ShadowSQLiteConnection {
     });
   }
 
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static void nativeBindBlob(int connectionPtr, int statementPtr, int index, byte[] value) {
     nativeBindBlob((long) connectionPtr, (long) statementPtr, index, value);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static void nativeBindBlob(final long connectionPtr, final long statementPtr, final int index, final byte[] value) {
     CONNECTIONS.execute("bind blob at index " + index, new Callable<Object>() {
       @Override
@@ -324,24 +326,24 @@ public class ShadowSQLiteConnection {
     });
   }
 
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static void nativeRegisterLocalizedCollators(int connectionPtr, String locale) {
     nativeRegisterLocalizedCollators((long) connectionPtr, locale);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static void nativeRegisterLocalizedCollators(long connectionPtr, String locale) {
     // TODO: find a way to create a collator
     // http://www.sqlite.org/c3ref/create_collation.html
     // xerial jdbc driver does not have a Java method for sqlite3_create_collation
   }
 
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static int nativeExecuteForChangedRowCount(int connectionPtr, int statementPtr) {
     return nativeExecuteForChangedRowCount((long) connectionPtr, (long) statementPtr);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static int nativeExecuteForChangedRowCount(final long connectionPtr, final long statementPtr) {
     return CONNECTIONS.execute("execute for changed row count", new Callable<Integer>() {
       @Override
@@ -353,12 +355,12 @@ public class ShadowSQLiteConnection {
     });
   }
 
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static long nativeExecuteForLastInsertedRowId(int connectionPtr, int statementPtr) {
     return nativeExecuteForLastInsertedRowId((long) connectionPtr, (long) statementPtr);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static long nativeExecuteForLastInsertedRowId(final long connectionPtr, final long statementPtr) {
     return CONNECTIONS.execute("execute for last inserted row ID", new Callable<Long>() {
       @Override
@@ -370,14 +372,14 @@ public class ShadowSQLiteConnection {
     });
   }
 
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static long nativeExecuteForCursorWindow(int connectionPtr, int statementPtr, int windowPtr,
                                                   int startPos, int requiredPos, boolean countAllRows) {
     return nativeExecuteForCursorWindow((long) connectionPtr, (long) statementPtr, (long) windowPtr,
         startPos, requiredPos, countAllRows);
 }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static long nativeExecuteForCursorWindow(final long connectionPtr, final long statementPtr, final long windowPtr,
                                                   final int startPos, final int requiredPos, final boolean countAllRows) {
 
@@ -390,12 +392,12 @@ public class ShadowSQLiteConnection {
     });
   }
 
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static void nativeResetStatementAndClearBindings(int connectionPtr, int statementPtr) {
     nativeResetStatementAndClearBindings((long) connectionPtr, (long) statementPtr);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static void nativeResetStatementAndClearBindings(final long connectionPtr, final long statementPtr) {
     CONNECTIONS.execute("reset statement", new Callable<Object>() {
       @Override
@@ -407,53 +409,53 @@ public class ShadowSQLiteConnection {
     });
   }
 
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static void nativeCancel(int connectionPtr) {
     nativeCancel((long) connectionPtr);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static void nativeCancel(long connectionPtr) {
     CONNECTIONS.cancel(connectionPtr);
   }
 
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static void nativeResetCancel(int connectionPtr, boolean cancelable) {
     nativeResetCancel((long) connectionPtr, cancelable);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static void nativeResetCancel(long connectionPtr, boolean cancelable) {
     // handled in com.almworks.sqlite4java.SQLiteConnection#exec
   }
 
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static void nativeRegisterCustomFunction(int connectionPtr, SQLiteCustomFunction function) {
     nativeRegisterCustomFunction((long) connectionPtr, function);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static void nativeRegisterCustomFunction(long connectionPtr, SQLiteCustomFunction function) {
     // not supported
   }
 
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static int nativeExecuteForBlobFileDescriptor(int connectionPtr, long statementPtr) {
     return nativeExecuteForBlobFileDescriptor((long) connectionPtr, (long) statementPtr);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static int nativeExecuteForBlobFileDescriptor(long connectionPtr, long statementPtr) {
     // impossible to support without native code?
     return -1;
   }
 
-  @Implementation(to = 20)
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static int nativeGetDbLookaside(int connectionPtr) {
     return nativeGetDbLookaside((long) connectionPtr);
   }
 
-  @Implementation(from = 21)
+  @Implementation(minSdk = LOLLIPOP)
   public static int nativeGetDbLookaside(long connectionPtr) {
     // not supported by sqlite4java
     return 0;

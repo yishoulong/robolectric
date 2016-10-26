@@ -15,11 +15,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
+
 /**
  * Shadow of {@link android.view.accessibility.AccessibilityWindowInfo} that allows a test to set
  * properties that are locked in the original class.
  */
-@Implements(value = AccessibilityWindowInfo.class, minSdk = 21)
+@Implements(value = AccessibilityWindowInfo.class, minSdk = LOLLIPOP)
 public class ShadowAccessibilityWindowInfo {
 
   private static final Map<StrictEqualityWindowWrapper, StackTraceElement[]> obtainedInstances =

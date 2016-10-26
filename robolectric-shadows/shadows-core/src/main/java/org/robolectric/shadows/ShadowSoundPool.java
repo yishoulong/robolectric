@@ -9,6 +9,8 @@ import org.robolectric.util.ReflectionHelpers;
 
 import android.media.AudioAttributes;
 
+import static android.os.Build.VERSION_CODES;
+import static android.os.Build.VERSION_CODES.M;
 import static org.robolectric.internal.Shadow.directlyOn;
 import static org.robolectric.internal.Shadow.invokeConstructor;
 import static org.robolectric.util.ReflectionHelpers.ClassParameter.from;
@@ -18,7 +20,7 @@ public class ShadowSoundPool {
   @RealObject
   SoundPool realObject;
 
-  @Implementation(from = 23)
+  @Implementation(minSdk = M)
   public void __constructor__(int maxStreams, AudioAttributes attributes) {
     if (Build.VERSION.SDK_INT >= 23) {
       ReflectionHelpers.setField(realObject, "mLock", new Object());
