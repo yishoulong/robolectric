@@ -3,6 +3,7 @@ package org.robolectric.shadows;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.DisplayAdjustments;
@@ -10,10 +11,12 @@ import android.view.Surface;
 import org.robolectric.annotation.RealObject;
 import org.robolectric.annotation.Implementation;
 import org.robolectric.annotation.Implements;
+import org.robolectric.util.ReflectionHelpers;
 
 import static android.os.Build.VERSION_CODES;
 import static android.os.Build.VERSION_CODES.KITKAT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
+import static org.robolectric.internal.Shadow.directlyOn;
 
 /**
  * Shadow for {@link android.view.Display}.
@@ -211,7 +214,12 @@ public class ShadowDisplay {
   }
 
   @Implementation(minSdk = KITKAT)
-  public DisplayAdjustments getDisplayAdjustments() {
-    return new DisplayAdjustments();
+  public Object getDisplayAdjustments() {
+    if (Build.VERSION.SDK_INT >= KITKAT) {
+      Class<?> aClass = ReflectionHelpers.loadClass(getClass().getClassLoader(), "android.view.DisplayAdjustments");
+      return ReflectionHelpers.newInstance(aClass);
+    } else {
+      return directlyOn(realObject, Display.class).getDisplayAdjustments();
+    }
   }
 }

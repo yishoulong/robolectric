@@ -102,6 +102,13 @@ public class ShadowActivityManagerTest {
     assertThat(ActivityManager.isUserAMonkey()).isFalse();
   }
 
+  @Test
+  public void getLockTaskModeState() throws Exception {
+    assertThat(getActivityManager().getLockTaskModeState()).isEqualTo(0); // just don't throw
+  }
+
+  ///////////////////////
+  
   private ActivityManager getActivityManager() {
     return (ActivityManager) RuntimeEnvironment.application.getSystemService(Context.ACTIVITY_SERVICE);
   }

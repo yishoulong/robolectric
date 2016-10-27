@@ -218,7 +218,7 @@ public class ShadowTime {
   @Implementation(maxSdk = KITKAT_WATCH)
   public static String getCurrentTimezone() {
     if (!upToKitkatWatch()) {
-      return directlyOn(Time.class, "getCurrentTimeZone");
+      return directlyOn(Time.class, "getCurrentTimezone");
     }
 
     return TimeZone.getDefault().getID();

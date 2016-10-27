@@ -7,17 +7,30 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Proxy;
+import java.util.HashMap;
 
 /**
  * Collection of helper methods for calling methods and accessing fields reflectively.
  */
 public class ReflectionHelpers {
+  public static final HashMap<String, Object> PRIMITIVE_RETURN_VALUES = new HashMap<>();
+
+  static {
+    ReflectionHelpers.PRIMITIVE_RETURN_VALUES.put("boolean", Boolean.FALSE);
+    ReflectionHelpers.PRIMITIVE_RETURN_VALUES.put("int", 0);
+    ReflectionHelpers.PRIMITIVE_RETURN_VALUES.put("long", (long) 0);
+    ReflectionHelpers.PRIMITIVE_RETURN_VALUES.put("float", (float) 0);
+    ReflectionHelpers.PRIMITIVE_RETURN_VALUES.put("double", (double) 0);
+    ReflectionHelpers.PRIMITIVE_RETURN_VALUES.put("short", (short) 0);
+    ReflectionHelpers.PRIMITIVE_RETURN_VALUES.put("byte", (byte) 0);
+  }
+
   public static <T> T createNullProxy(Class<T> clazz) {
     return (T) Proxy.newProxyInstance(clazz.getClassLoader(),
         new Class[]{clazz}, new InvocationHandler() {
           @Override
           public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            return null;
+            return PRIMITIVE_RETURN_VALUES.get(method.getReturnType().getName());
           }
         });
   }
