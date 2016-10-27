@@ -2,6 +2,7 @@ package org.robolectric.shadows;
 
 import android.app.ResourcesManager;
 
+import android.os.Build;
 import org.robolectric.annotation.Implements;
 import org.robolectric.annotation.Resetter;
 import org.robolectric.util.ReflectionHelpers;
@@ -13,6 +14,8 @@ public class ShadowResourceManager {
 
   @Resetter
   public static void reset() {
-    ReflectionHelpers.setStaticField(ResourcesManager.class, "sResourcesManager", null);
+    if (Build.VERSION.SDK_INT >= KITKAT) {
+      ReflectionHelpers.setStaticField(ResourcesManager.class, "sResourcesManager", null);
+    }
   }
 }
